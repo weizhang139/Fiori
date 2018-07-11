@@ -1,0 +1,51 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZTST_ODATA1_SRV" xml:lang="zh" sap:schema-version="1">
+            <EntityType Name="EtPerson" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Person"/>
+                </Key>
+                <Property Name="Person" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="工号" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="名称 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="EtAddr" Relationship="ZTST_ODATA1_SRV.ToItem" FromRole="FromRole_ToItem" ToRole="ToRole_ToItem"/>
+            </EntityType>
+            <EntityType Name="EtAddr" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Person"/>
+                    <PropertyRef Name="Item"/>
+                </Key>
+                <Property Name="Person" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="工号" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Item" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="编号" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Addr" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="地址" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="ToItem" sap:content-version="1" sap:label="测试">
+                <End Type="ZTST_ODATA1_SRV.EtPerson" Multiplicity="1" Role="FromRole_ToItem"/>
+                <End Type="ZTST_ODATA1_SRV.EtAddr" Multiplicity="*" Role="ToRole_ToItem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_ToItem">
+                        <PropertyRef Name="Person"/>
+                    </Principal>
+                    <Dependent Role="ToRole_ToItem">
+                        <PropertyRef Name="Person"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZTST_ODATA1_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="EtPersonSet" EntityType="ZTST_ODATA1_SRV.EtPerson" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="EtAddrSet" EntityType="ZTST_ODATA1_SRV.EtAddr" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="ToItemSet" Association="ZTST_ODATA1_SRV.ToItem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="EtPersonSet" Role="FromRole_ToItem"/>
+                    <End EntitySet="EtAddrSet" Role="ToRole_ToItem"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZTST_ODATA1_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZTST_ODATA1_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
